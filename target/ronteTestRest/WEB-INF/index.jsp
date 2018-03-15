@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html ng-app="employeeApp">
+<html ng-app="accountApp">
 <head>
 <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -24,7 +24,7 @@ var model = {
 };
 */
 
-var port = '8080';
+var port = '8081';
 
 var accountApp = angular.module("accountApp", []);
 accountApp.controller("accountController", function ($scope, $http) {
@@ -146,6 +146,7 @@ accountApp.controller("accountController", function ($scope, $http) {
 	
 	
 	
+	
 	</script>
 
 </head>
@@ -154,7 +155,7 @@ accountApp.controller("accountController", function ($scope, $http) {
 
 
     <div class="page-header">
-        <h1> Список cчетов </h1>
+        <h1> List accounts </h1>
     </div>
     <div class="panel">
        	<div class="form-inline" >
@@ -170,17 +171,17 @@ accountApp.controller("accountController", function ($scope, $http) {
 		   	</div>
 			<div class="form-group" ng-show="!editMode">
 				<div class="col-md-btnAdd">
-					<button class="btn btn-default" ng-click="addItem()">Добавить</button>
+					<button class="btn btn-default" ng-click="addItem()">Add</button>
 				</div>
 			</div>
 			<div class="form-group" ng-show="editMode" >
 				<div class="col-md-btnUpdateEdit">
-					<button class="btn btn-default"  ng-click="updateItem()">Отредактировать</button>
+					<button class="btn btn-default"  ng-click="updateItem()">Edit</button>
 				</div>
 			</div>
 			<div class="form-group" ng-show="editMode" >
 				<div class="col-md-btnUpdateEdit">
-					<button class="btn btn-default"  ng-click="updateModeOff()">Отмена редактирования</button>
+					<button class="btn btn-default"  ng-click="updateModeOff()">Cancel edit</button>
 				</div>
 			</div>
         </div>
@@ -190,16 +191,16 @@ accountApp.controller("accountController", function ($scope, $http) {
                 <tr>
 					<th>id</th>
 					<th>accountDetails</th>
-					<th>Изменить</th>
-					<th>Удалить</th>
+					<th>Edit</th>
+					<th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in list.items">
 					<td>{{item.id}}</td>
 					<td>{{item.accountDetails}}</td>
-					<td><button class="btn btn-default" ng-click="updateModeOn(item.id)">Изменить</button></td>
-					<td><button class="btn btn-default" ng-click="deleteItem(item.id)">Удалить</button></td>
+					<td><button class="btn btn-default" ng-click="updateModeOn(item.id)">Edit</button></td>
+					<td><button class="btn btn-default" ng-click="deleteItem(item.id)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
@@ -210,4 +211,5 @@ accountApp.controller("accountController", function ($scope, $http) {
 
 
 </body>
+</html>
 </html>
