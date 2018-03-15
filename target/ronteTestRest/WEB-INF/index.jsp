@@ -12,6 +12,7 @@
 	
 	
 
+
 /*
 var model = {
     items: [
@@ -23,6 +24,8 @@ var model = {
 };
 */
 
+var port = '8080';
+
 var accountApp = angular.module("accountApp", []);
 accountApp.controller("accountController", function ($scope, $http) {
     //$scope.list = model;
@@ -33,7 +36,7 @@ accountApp.controller("accountController", function ($scope, $http) {
         $scope.editMode = false;
 
         // обновить список
-        $http.get('http://localhost:8080/ronteTestRest/accounts').
+        $http.get('http://localhost:'+ port + '/ronteTestRest/accounts').
             then(function(response) {
                 $scope.list = { "items" : response.data};
              }, function error(response){
@@ -51,11 +54,11 @@ accountApp.controller("accountController", function ($scope, $http) {
             if( ($scope.editAccount.accountDetails != "" && $scope.editAccount.accountDetails != undefined) )
             {
                 var parameter = JSON.stringify({id: $scope.editAccount.id, accountDetails: $scope.editAccount.accountDetails});
-                $http.post('http://localhost:8080/ronteTestRest/accounts', parameter).
+                $http.post('http://localhost:'+ port + '/ronteTestRest/account', parameter).
                     then(function(response){
                         $scope.editAccount = angular.copy($scope.emptyAccount);
 
-                        $http.get('http://localhost:8080/ronteTestRest/accounts').
+                        $http.get('http://localhost:'+ port + '/ronteTestRest/accounts').
                         then(function(response) {
                             $scope.list = { "items" : response.data};
                         });
@@ -77,7 +80,7 @@ accountApp.controller("accountController", function ($scope, $http) {
             {
 
                 // обновить список
-                $http.get('http://localhost:8080/ronteTestRest/accounts/'+inIdStr).
+                $http.get('http://localhost:'+ port + '/ronteTestRest/account/'+inIdStr).
                 then(function(response) {
                         $scope.editAccount = response.data;
                         $scope.editMode = true;
@@ -99,13 +102,13 @@ accountApp.controller("accountController", function ($scope, $http) {
         // редактировать- обновить
         $scope.updateItem = function () {
             var parameter = JSON.stringify({id: $scope.editAccount.id, accountDetails: $scope.editAccount.accountDetails});
-            $http.put('http://localhost:8080/ronteTestRest/accounts', parameter).
+            $http.put('http://localhost:'+ port + '/ronteTestRest/accounts', parameter).
             then(function(response){
                 $scope.editMode = false
                 $scope.editAccount = angular.copy($scope.emptyAccount);
 
 
-                $http.get('http://localhost:8080/ronteTestRest/accounts').
+                $http.get('http://localhost:'+ port + '/ronteTestRest/accounts').
                 then(function(response) {
                     $scope.list = { "items" : response.data};
                 });
@@ -125,9 +128,9 @@ accountApp.controller("accountController", function ($scope, $http) {
             if( !isNaN(inId))
             {
                 var parameter = "";
-                $http.delete('http://localhost:8080/mdhTestRest/employees/'+inIdStr, parameter).
+                $http.delete('http://localhost:'+ port + '/ronteTestRest/accounts/'+inIdStr, parameter).
                 then (function(response){
-                    $http.get('http://localhost:8080/mdhTestRest/employees/').
+                    $http.get('http://localhost:'+ port + '/ronteTestRest/accounts/').
                     then(function(response) {
                         $scope.list = { "items" : response.data};
                     });
@@ -146,40 +149,25 @@ accountApp.controller("accountController", function ($scope, $http) {
 	</script>
 
 </head>
-<body ng-controller="employeeController">
+<body ng-controller="accountController">
 
 
 
     <div class="page-header">
-        <h1> Список сотрудников </h1>
+        <h1> Список cчетов </h1>
     </div>
     <div class="panel">
        	<div class="form-inline" >
 			<div class="form-group-hiden" hidden="true" >
 				<div class="col-md-id">
-					<input class="form-control" ng-model="editEmployee.id" 	placeholder = "Номер" />
+					<input class="form-control" ng-model="editAccount.id" 	placeholder = "id" />
 			   	</div>
 		   	</div>
 		   	<div class="form-group">
 			   	<div class="col-md-firstName">
-				   	<input class="form-control" ng-model="editEmployee.firstName" 	placeholder = "Фамилия"  />
+				   	<input class="form-control" ng-model="editAccount.accountDetails" 	placeholder = "accountDetails"  />
 			   	</div>
 		   	</div>
-		   	<div class="form-group">
-				<div class="col-md-lastName">
-					<input class="form-control" ng-model="editEmployee.lastName" 	placeholder = "Имя" />
-				</div>
-		   	</div>
-			<div class="form-group">
-				<div class="col-md-patronymic">
-					<input class="form-control" ng-model="editEmployee.patronymic" 	placeholder = "Отчество"  />
-				</div>
-			</div>
-            <div class="form-group">
-                <div class="col-md-departament">
-                    <input class="form-control" ng-model="editEmployee.departament" 	placeholder = "Отдел"  />
-                </div>
-            </div>
 			<div class="form-group" ng-show="!editMode">
 				<div class="col-md-btnAdd">
 					<button class="btn btn-default" ng-click="addItem()">Добавить</button>
@@ -200,11 +188,8 @@ accountApp.controller("accountController", function ($scope, $http) {
         <table class="table table-striped">
             <thead>
                 <tr>
-					<th>Номер</th>
-					<th>Фамилия</th>
-					<th>Имя</th>
-                    <th>Отчество</th>
-					<th>Отдел</th>
+					<th>id</th>
+					<th>accountDetails</th>
 					<th>Изменить</th>
 					<th>Удалить</th>
                 </tr>
@@ -212,10 +197,7 @@ accountApp.controller("accountController", function ($scope, $http) {
             <tbody>
                 <tr ng-repeat="item in list.items">
 					<td>{{item.id}}</td>
-					<td>{{item.firstName}}</td>
-					<td>{{item.lastName}}</td>
-					<td>{{item.patronymic}}</td>
-					<td>{{item.departament}}</td>
+					<td>{{item.accountDetails}}</td>
 					<td><button class="btn btn-default" ng-click="updateModeOn(item.id)">Изменить</button></td>
 					<td><button class="btn btn-default" ng-click="deleteItem(item.id)">Удалить</button></td>
                 </tr>
